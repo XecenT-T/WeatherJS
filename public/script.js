@@ -1,8 +1,26 @@
 class WeatherApp {
     constructor() {
-        this.baseUrl = 'http://localhost:3000/api/weather';
+        this.baseUrl = this.getApiUrl();
         this.init();
         this.testAPI();
+    }
+
+    getApiUrl() {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocalhost) {
+            return 'http://localhost:3000/api/weather';
+        } else {
+            return `${window.location.origin}/api/weather`;
+        }
+    }
+
+    getTestUrl() {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocalhost) {
+            return 'http://localhost:3000/api/test';
+        } else {
+            return `${window.location.origin}/api/test`;
+        }
     }
 
     init() {
@@ -12,7 +30,7 @@ class WeatherApp {
 
     async testAPI() {
         try {
-            const testUrl = 'http://localhost:3000/api/test';
+            const testUrl = this.getTestUrl();
             const response = await fetch(testUrl);
             if (response.ok) {
                 console.log('✅ API connection successful');

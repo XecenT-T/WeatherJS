@@ -7,6 +7,12 @@ const PORT = process.env.PORT || 3000;
 
 const API_KEY = process.env.OPENWEATHER_API_KEY;
 
+if (!API_KEY) {
+  console.error('❌ OPENWEATHER_API_KEY environment variable is not set!');
+  console.error('Please set your OpenWeatherMap API key in the environment variables.');
+  process.exit(1);
+}
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -23,10 +29,6 @@ app.get('/api/weather', (req, res) => {
   
   if (!city && (!lat || !lon)) {
     return res.status(400).json({ error: 'City name or coordinates required' });
-  }
-
-  if (!API_KEY) {
-    return res.status(500).json({ error: 'API key not configured' });
   }
 
   let url;
@@ -70,8 +72,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`API Key configured: ${API_KEY ? 'Yes' : 'No'}`);
-}).on('error', (error) => {
-  console.error('Server error:', error);
+  console.log(`🚀 WeatherJS server is running on port ${PORT}`);
+  console.log(`✅ API Key configured: ${API_KEY ? 'Yes' : 'No'}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
