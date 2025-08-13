@@ -5,24 +5,19 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Get API key from environment
 const API_KEY = process.env.OPENWEATHER_API_KEY;
 
-// Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Index.html'));
 });
 
-// Test endpoint
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is working!', apiKey: !!API_KEY });
 });
 
-// Weather endpoint
 app.get('/api/weather', (req, res) => {
   const { city, lat, lon } = req.query;
   
@@ -66,7 +61,6 @@ app.get('/api/weather', (req, res) => {
   });
 });
 
-// Error handling
 process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);
 });

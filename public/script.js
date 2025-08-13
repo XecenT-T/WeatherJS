@@ -1,8 +1,8 @@
 class WeatherApp {
     constructor() {
-        this.baseUrl = 'http://localhost:3000/api/weather'; // Back to port 3000
+        this.baseUrl = 'http://localhost:3000/api/weather';
         this.init();
-        this.testAPI(); // Test API connection
+        this.testAPI();
     }
 
     init() {
@@ -11,7 +11,6 @@ class WeatherApp {
     }
 
     async testAPI() {
-        // Test the API with a simple city to verify it's working
         try {
             const testUrl = 'http://localhost:3000/api/test';
             const response = await fetch(testUrl);
@@ -30,9 +29,11 @@ class WeatherApp {
         const locationBtn = document.getElementById('locationBtn');
         const cityInput = document.getElementById('cityInput');
         const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+        const debugBtn = document.getElementById('debugBtn');
 
         searchBtn.addEventListener('click', () => this.searchWeather());
         locationBtn.addEventListener('click', () => this.getLocationWeather());
+        debugBtn.addEventListener('click', () => this.testCoordinates());
         
         cityInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -40,7 +41,6 @@ class WeatherApp {
             }
         });
 
-        // Add event listeners for suggestion buttons
         suggestionBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const city = btn.getAttribute('data-city');
@@ -83,16 +83,24 @@ class WeatherApp {
 
     async getLocationWeather() {
         if (!navigator.geolocation) {
-            this.showError('Geolocation is not supported by your browser');
+            this.showError('Geolocation is not supported by your browser. Please try a different browser or search for a city manually.');
             return;
         }
 
+        console.log('Requesting location permission...');
         this.showLoading();
+        
+        const geolocationOptions = {
+            enableHighAccuracy: false,
+            timeout: 30000,
+            maximumAge: 300000
+        };
         
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 try {
                     const { latitude, longitude } = position.coords;
+                    console.log('Location obtained:', { latitude, longitude });
                     const weatherData = await this.fetchWeatherDataByCoords(latitude, longitude);
                     this.displayWeather(weatherData);
                 } catch (error) {
@@ -102,8 +110,25 @@ class WeatherApp {
             },
             (error) => {
                 console.error('Geolocation error:', error);
-                this.showError('Unable to get your location. Please enable location access or search for a city manually.');
-            }
+                let errorMessage = 'Unable to get your location. ';
+                
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage += 'Please enable location access in your browser settings and try again.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage += 'Location information is currently unavailable. Please try again later or search for a city.';
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage += 'Location request timed out. This usually means:\n• Location services are disabled\n• Browser needs location permission\n• Try refreshing the page and allowing location access';
+                        break;
+                    default:
+                        errorMessage += 'Please enable location access or search for a city manually.';
+                }
+                
+                this.showError(errorMessage);
+            },
+            geolocationOptions
         );
     }
 
@@ -154,13 +179,10 @@ class WeatherApp {
         this.hideLoading();
         this.hideError();
         
-        // Update city name and date
         document.getElementById('cityName').textContent = data.name + ', ' + data.sys.country;
         
-        // Update temperature
         document.getElementById('temperature').textContent = Math.round(data.main.temp);
         
-        // Update weather description and icon
         const weatherDesc = data.weather[0].description;
         document.getElementById('weatherDesc').textContent = weatherDesc.charAt(0).toUpperCase() + weatherDesc.slice(1);
         
@@ -168,16 +190,13 @@ class WeatherApp {
         const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
         document.getElementById('weatherIcon').src = iconUrl;
         
-        // Update weather details
         document.getElementById('feelsLike').textContent = Math.round(data.main.feels_like) + '°C';
         document.getElementById('humidity').textContent = data.main.humidity + '%';
         document.getElementById('windSpeed').textContent = data.wind.speed + ' m/s';
         document.getElementById('pressure').textContent = data.main.pressure + ' hPa';
         
-        // Show weather info
         document.getElementById('weatherInfo').style.display = 'block';
         
-        // Clear input
         document.getElementById('cityInput').value = '';
     }
 
@@ -203,9 +222,25 @@ class WeatherApp {
     hideError() {
         document.getElementById('errorMessage').style.display = 'none';
     }
+
+    async testCoordinates() {
+        console.log('Testing coordinates functionality with Tokyo coordinates...');
+        this.showLoading();
+        
+        try {
+            const tokyoLat = 35.6895;
+            const tokyoLon = 139.6917;
+            console.log('Using Tokyo coordinates:', { lat: tokyoLat, lon: tokyoLon });
+            
+            const weatherData = await this.fetchWeatherDataByCoords(tokyoLat, tokyoLon);
+            this.displayWeather(weatherData);
+        } catch (error) {
+            console.error('Test coordinates error:', error);
+            this.showError('Failed to test coordinates. Error: ' + error.message);
+        }
+    }
 }
 
-// Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new WeatherApp();
 });
