@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherJS - Weather Application</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>WeatherJS</h1>
+        <p class="subtitle">Get real-time weather information</p>
+        
+        <div class="search-container">
+            <input type="text" id="cityInput" placeholder="Enter city name..." class="city-input">
+            <button id="searchBtn" class="search-btn">Search</button>
+            <button id="locationBtn" class="location-btn">📍 Use My Location</button>
+        </div>
+        
+        <div class="city-suggestions">
+            <p class="suggestion-text">Try popular cities:</p>
+            <div class="suggestion-buttons">
+                <button class="suggestion-btn" data-city="London">London</button>
+                <button class="suggestion-btn" data-city="New York">New York</button>
+                <button class="suggestion-btn" data-city="Tokyo">Tokyo</button>
+                <button class="suggestion-btn" data-city="Paris">Paris</button>
+                <button class="suggestion-btn" data-city="Mumbai">Mumbai</button>
+                <button class="suggestion-btn" data-city="Delhi">Delhi</button>
+            </div>
+        </div>
+        
+        <div id="weatherInfo" class="weather-info" style="display: none;">
+            <div class="weather-header">
+                <h2 id="cityName">City Name</h2>
+                <p id="currentDate">Date</p>
+            </div>
+            
+            <div class="weather-main">
+                <div class="temperature">
+                    <span id="temperature">--</span>°C
+                </div>
+                <div class="weather-description">
+                    <img id="weatherIcon" src="" alt="Weather Icon">
+                    <p id="weatherDesc">Weather Description</p>
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail-item">
+                    <span class="label">Feels Like:</span>
+                    <span id="feelsLike">--°C</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Humidity:</span>
+                    <span id="humidity">--%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Wind Speed:</span>
+                    <span id="windSpeed">-- m/s</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Pressure:</span>
+                    <span id="pressure">-- hPa</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <p id="errorText">City not found. Please try again.</p>
+            <div class="error-tips">
+                <p><strong>Tips:</strong></p>
+                <ul>
+                    <li>Check the spelling of the city name</li>
+                    <li>Try using the location button instead</li>
+                    <li>Make sure you have an internet connection</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <p>Loading weather data...</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
