@@ -92,7 +92,7 @@ class WeatherApp {
             const weatherData = await this.fetchWeatherData(city);
             this.displayWeather(weatherData);
         } catch (error) {
-            console.error('Weather fetch error:', error);
+
             this.showError(error.message);
         }
     }
@@ -171,19 +171,19 @@ class WeatherApp {
         }
         
         const data = await response.json();
-        console.log('Weather data received:', data);
+
         return data;
     }
 
     async fetchWeatherDataByCoords(lat, lon) {
         const url = `${this.baseUrl}?lat=${lat}&lon=${lon}`;
-        console.log('Fetching weather by coordinates:', lat, lon);
+
         
         const response = await fetch(url);
         
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            console.error('Coordinates API Error:', errorData);
+
             throw new Error(`Failed to fetch weather data: ${response.status}`);
         }
         
