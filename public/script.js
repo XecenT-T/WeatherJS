@@ -153,11 +153,11 @@ class WeatherApp {
 
         
         const response = await fetch(url);
-        console.log('Response status:', response.status);
+
         
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            console.error('API Error:', errorData);
+
             
             if (response.status === 400) {
                 throw new Error('Please provide a valid city name.');
