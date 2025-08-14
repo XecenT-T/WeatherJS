@@ -72,7 +72,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 WeatherJS server is running on port ${PORT}`);
+  console.log(`🚀 Weather server is running on port ${PORT}`);
   console.log(`✅ API Key configured: ${API_KEY ? 'Yes' : 'No'}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

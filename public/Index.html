@@ -3,98 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherJS - Weather Application</title>
-    <link rel="stylesheet" href="Style.css">
+    <title>Weather - Weather Application</title>
+    <link rel="stylesheet" href="output.css">
 </head>
-<body>
-    <div class="container">
-        <h1>WeatherJS</h1>
-        <p class="subtitle">Get real-time weather information</p>
-        
-        <div class="search-container">
-            <input type="text" id="cityInput" placeholder="Enter city name..." class="city-input">
-            <button id="searchBtn" class="search-btn">Search</button>
-            <button id="locationBtn" class="location-btn">📍 Use My Location</button>
-            <button id="debugBtn" class="debug-btn">🧪 Test Coordinates (Tokyo)</button>
+<body class="min-h-screen weather-gradient">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">Weather</h1>
+            <p class="text-xl text-gray-600">Get real-time weather information</p>
         </div>
         
-        <div class="location-help">
-            <details>
-                <summary>📍 Having trouble with location?</summary>
-                <div class="help-content">
-                    <p><strong>Quick fixes:</strong></p>
-                    <ul>
-                        <li>Click the lock icon 🔒 in your address bar and allow location access</li>
-                        <li>Make sure your device location services are turned on</li>
-                        <li>Try refreshing the page and allowing location when prompted</li>
-                        <li>Use the city search instead if location continues to fail</li>
-                    </ul>
-                </div>
-            </details>
-        </div>
-        
-        <div class="city-suggestions">
-            <p class="suggestion-text">Try popular cities:</p>
-            <div class="suggestion-buttons">
-                <button class="suggestion-btn" data-city="London">London</button>
-                <button class="suggestion-btn" data-city="New York">New York</button>
-                <button class="suggestion-btn" data-city="Tokyo">Tokyo</button>
-                <button class="suggestion-btn" data-city="Paris">Paris</button>
-                <button class="suggestion-btn" data-city="Mumbai">Mumbai</button>
-                <button class="suggestion-btn" data-city="Delhi">Delhi</button>
-            </div>
-        </div>
-        
-        <div id="weatherInfo" class="weather-info" style="display: none;">
-            <div class="weather-header">
-                <h2 id="cityName">City Name</h2>
-                <p id="currentDate">Date</p>
+        <div class="weather-card p-8 mb-8 animate-slide-up">
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    placeholder="Enter city name..." 
+                    class="input-field flex-1"
+                >
+                <button id="searchBtn" class="btn-primary whitespace-nowrap">
+                    Search
+                </button>
+                <button id="locationBtn" class="btn-secondary whitespace-nowrap">
+                    📍 Use My Location
+                </button>
             </div>
             
-            <div class="weather-main">
-                <div class="temperature">
-                    <span id="temperature">--</span>°C
+            <div class="bg-gray-50 rounded-xl p-4">
+                <details class="group">
+                    <summary class="flex items-center gap-2 text-weather-blue font-semibold cursor-pointer hover:text-blue-600 transition-colors">
+                        📍 Having trouble with location?
+                        <svg class="w-4 h-4 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="font-semibold text-gray-700 mb-3">Quick fixes:</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start gap-2">
+                                <span class="text-weather-blue">🔒</span>
+                                Click the lock icon in your address bar and allow location access
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-weather-blue">📍</span>
+                                Make sure your device location services are turned on
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-weather-blue">🔄</span>
+                                Try refreshing the page and allowing location when prompted
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-weather-blue">🔍</span>
+                                Use the city search instead if location continues to fail
+                            </li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </div>
+        
+        <div class="weather-card p-6 mb-8 animate-slide-up">
+            <p class="text-gray-600 text-sm mb-4">Try popular cities:</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="London">London</button>
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="New York">New York</button>
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="Tokyo">Tokyo</button>
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="Paris">Paris</button>
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="Mumbai">Mumbai</button>
+                <button class="suggestion-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200" data-city="Delhi">Delhi</button>
+            </div>
+        </div>
+        
+        <div id="weatherInfo" class="weather-card p-8 animate-fade-in" style="display: none;">
+            <div class="text-center mb-8">
+                <h2 id="cityName" class="text-3xl font-bold text-gray-800 mb-2">City Name</h2>
+                <p id="currentDate" class="text-gray-600">Date</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-8">
+                <div class="text-center">
+                    <div class="text-6xl font-bold text-gray-800 mb-4">
+                        <span id="temperature">--</span>°C
+                    </div>
                 </div>
-                <div class="weather-description">
-                    <img id="weatherIcon" src="" alt="Weather Icon">
-                    <p id="weatherDesc">Weather Description</p>
+                <div class="text-center">
+                    <img id="weatherIcon" src="" alt="Weather Icon" class="w-24 h-24 mx-auto mb-4 animate-bounce-gentle">
+                    <p id="weatherDesc" class="text-xl text-gray-700 font-medium">Weather Description</p>
                 </div>
             </div>
             
-            <div class="weather-details">
-                <div class="detail-item">
-                    <span class="label">Feels Like:</span>
-                    <span id="feelsLike">--°C</span>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <div class="text-2xl font-bold text-gray-800 mb-1">
+                        <span id="feelsLike">--°C</span>
+                    </div>
+                    <div class="text-sm text-gray-600">Feels Like</div>
                 </div>
-                <div class="detail-item">
-                    <span class="label">Humidity:</span>
-                    <span id="humidity">--%</span>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <div class="text-2xl font-bold text-gray-800 mb-1">
+                        <span id="humidity">--%</span>
+                    </div>
+                    <div class="text-sm text-gray-600">Humidity</div>
                 </div>
-                <div class="detail-item">
-                    <span class="label">Wind Speed:</span>
-                    <span id="windSpeed">-- m/s</span>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <div class="text-2xl font-bold text-gray-800 mb-1">
+                        <span id="windSpeed">-- m/s</span>
+                    </div>
+                    <div class="text-sm text-gray-600">Wind Speed</div>
                 </div>
-                <div class="detail-item">
-                    <span class="label">Pressure:</span>
-                    <span id="pressure">-- hPa</span>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <div class="text-2xl font-bold text-gray-800 mb-1">
+                        <span id="pressure">-- hPa</span>
+                    </div>
+                    <div class="text-sm text-gray-600">Pressure</div>
                 </div>
             </div>
         </div>
         
-        <div id="errorMessage" class="error-message" style="display: none;">
-            <p id="errorText">City not found. Please try again.</p>
-            <div class="error-tips">
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Check the spelling of the city name</li>
-                    <li>Try using the location button instead</li>
-                    <li>Make sure you have an internet connection</li>
-                </ul>
+        <div id="errorMessage" class="weather-card p-6 border-l-4 border-red-500 animate-fade-in" style="display: none;">
+            <div class="flex items-start gap-3">
+                <div class="text-red-500 text-xl">⚠️</div>
+                <div class="flex-1">
+                    <p id="errorText" class="text-red-700 font-medium mb-3">City not found. Please try again.</p>
+                    <div class="bg-red-50 rounded-lg p-4">
+                        <p class="font-semibold text-red-800 mb-2">Tips:</p>
+                        <ul class="space-y-1 text-sm text-red-700">
+                            <li>• Check the spelling of the city name</li>
+                            <li>• Try using the location button instead</li>
+                            <li>• Make sure you have an internet connection</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div id="loading" class="loading" style="display: none;">
-            <p>Loading weather data...</p>
+        <div id="loading" class="weather-card p-8 text-center animate-pulse" style="display: none;">
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-6 h-6 border-2 border-weather-blue border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-gray-600 font-medium">Loading weather data...</p>
+            </div>
         </div>
     </div>
     

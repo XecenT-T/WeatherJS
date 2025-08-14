@@ -33,12 +33,12 @@ class WeatherApp {
             const testUrl = this.getTestUrl();
             const response = await fetch(testUrl);
             if (response.ok) {
-                console.log('✅ API connection successful');
+                
             } else {
-                console.error('❌ API connection failed:', response.status);
+                
             }
         } catch (error) {
-            console.error('❌ API test failed:', error);
+            
         }
     }
 
@@ -47,11 +47,9 @@ class WeatherApp {
         const locationBtn = document.getElementById('locationBtn');
         const cityInput = document.getElementById('cityInput');
         const suggestionBtns = document.querySelectorAll('.suggestion-btn');
-        const debugBtn = document.getElementById('debugBtn');
 
         searchBtn.addEventListener('click', () => this.searchWeather());
         locationBtn.addEventListener('click', () => this.getLocationWeather());
-        debugBtn.addEventListener('click', () => this.testCoordinates());
         
         cityInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -105,7 +103,7 @@ class WeatherApp {
             return;
         }
 
-        console.log('Requesting location permission...');
+
         this.showLoading();
         
         const geolocationOptions = {
@@ -118,16 +116,16 @@ class WeatherApp {
             async (position) => {
                 try {
                     const { latitude, longitude } = position.coords;
-                    console.log('Location obtained:', { latitude, longitude });
+
                     const weatherData = await this.fetchWeatherDataByCoords(latitude, longitude);
                     this.displayWeather(weatherData);
                 } catch (error) {
-                    console.error('Location weather error:', error);
+            
                     this.showError('Failed to get weather for your location. Please try searching for a city instead.');
                 }
             },
             (error) => {
-                console.error('Geolocation error:', error);
+    
                 let errorMessage = 'Unable to get your location. ';
                 
                 switch(error.code) {
@@ -152,8 +150,7 @@ class WeatherApp {
 
     async fetchWeatherData(city) {
         const url = `${this.baseUrl}?city=${encodeURIComponent(city)}`;
-        console.log('Fetching weather for:', city);
-        console.log('API URL:', url);
+
         
         const response = await fetch(url);
         console.log('Response status:', response.status);
@@ -241,22 +238,7 @@ class WeatherApp {
         document.getElementById('errorMessage').style.display = 'none';
     }
 
-    async testCoordinates() {
-        console.log('Testing coordinates functionality with Tokyo coordinates...');
-        this.showLoading();
-        
-        try {
-            const tokyoLat = 35.6895;
-            const tokyoLon = 139.6917;
-            console.log('Using Tokyo coordinates:', { lat: tokyoLat, lon: tokyoLon });
-            
-            const weatherData = await this.fetchWeatherDataByCoords(tokyoLat, tokyoLon);
-            this.displayWeather(weatherData);
-        } catch (error) {
-            console.error('Test coordinates error:', error);
-            this.showError('Failed to test coordinates. Error: ' + error.message);
-        }
-    }
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {

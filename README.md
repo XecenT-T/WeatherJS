@@ -1,4 +1,4 @@
-# WeatherJS 🌤️
+# Weather 🌤️
 
 A real-time weather application with auto-location detection and city search, built with Node.js, Express, and OpenWeatherMap API.
 
@@ -28,7 +28,7 @@ A real-time weather application with auto-location detection and city search, bu
 ```bash
 # Clone the repository
 git clone https://github.com/XecenT-T/WeatherJS.git
-cd WeatherJS
+cd Weather
 
 # Install dependencies
 npm install
@@ -60,10 +60,10 @@ Visit `http://localhost:3000` to see your app!
 3. **Create New Web Service**
    - Click "New +" → "Web Service"
    - Connect your GitHub repository
-   - Select the `WeatherJS` repository
+   - Select the `Weather` repository
 
 4. **Configure Service**
-   - **Name**: `weatherjs` (or your preferred name)
+   - **Name**: `weather` (or your preferred name)
    - **Environment**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
@@ -121,7 +121,7 @@ railway up
 ## 📁 Project Structure
 
 ```
-WeatherJS/
+Weather/
 ├── public/                 # Frontend files
 │   ├── Index.html         # Main HTML file
 │   ├── Style.css          # CSS styles
